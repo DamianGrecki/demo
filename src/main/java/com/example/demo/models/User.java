@@ -7,6 +7,8 @@ import jakarta.validation.constraints.Email;
 @Table(name = "users")
 public class User {
 
+    public User(){}
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

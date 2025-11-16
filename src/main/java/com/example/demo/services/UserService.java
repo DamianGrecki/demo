@@ -1,8 +1,8 @@
 package com.example.demo.services;
 
-import com.example.demo.models.UserRegisterDataDto;
-import com.example.demo.models.UserRegisterResponse;
+import com.example.demo.models.requests.UserRegisterRequestBody;
+import com.example.demo.models.responses.UserRegisterResponse;
 
 public interface UserService {
-    UserRegisterResponse register(UserRegisterDataDto request);
+    UserRegisterResponse register(UserRegisterRequestBody request);
 }
