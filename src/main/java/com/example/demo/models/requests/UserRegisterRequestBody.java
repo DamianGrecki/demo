@@ -5,21 +5,23 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
+import static com.example.demo.constants.ValidationMessages.*;
+
 public class UserRegisterRequestBody {
 
-    @NotBlank(message = "Email is required.")
-    @Email(message = "Email must be valid.")
+    @NotBlank(message = EMAIL_IS_REQUIRED_MSG)
+    @Email(message = EMAIL_MUST_BE_VALID_MSG)
     private final String email;
 
-    @NotBlank(message = "Password is required.")
-    @Size(min = 8, max = 128, message = "Password must be between {min} and {max} characters long.")
-    @Pattern(regexp = ".*[A-Z].*", message = "Password should contain a uppercase letter.")
-    @Pattern(regexp = ".*[a-z].*", message = "Password should contain a lowercase letter.")
-    @Pattern(regexp = ".*\\d.*", message = "Password should contain a digit.")
-    @Pattern(regexp = ".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?].*", message = "Password should contain special character.")
+    @NotBlank(message = PASSWORD_IS_REQUIRED_MSG)
+    @Size(min = 8, max = 128, message = PASSWORD_MIN_MAX_LENGTH_MSG)
+    @Pattern(regexp = ".*[A-Z].*", message = PASSWORD_REQUIRE_UPPERCASE_LETTER_MSG)
+    @Pattern(regexp = ".*[a-z].*", message = PASSWORD_REQUIRE_LOWERCASE_LETTER_MSG)
+    @Pattern(regexp = ".*\\d.*", message = PASSWORD_REQUIRE_DIGIT_MSG)
+    @Pattern(regexp = ".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?].*", message = PASSWORD_REQUIRE_SPECIAL_CHARACTER_MSG)
     private final String password;
 
-    @NotBlank(message = "Password confirmation is required.")
+    @NotBlank(message = PASSWORD_CONFIRMATION_REQUIRED_MSG)
     private final String confirmPassword;
 
     public UserRegisterRequestBody(String email, String password, String confirmPassword) {
