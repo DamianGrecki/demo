@@ -3,7 +3,6 @@ spring:
     url: jdbc:postgresql://localhost:1010/mydb
     username: root
     password: 123 # It will eventually be moved to .env
-
   jpa:
     hibernate:
       ddl-auto: update
