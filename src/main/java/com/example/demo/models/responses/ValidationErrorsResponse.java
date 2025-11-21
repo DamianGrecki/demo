@@ -4,14 +4,14 @@ import java.util.List;
 import java.util.Map;
 
 public class ValidationErrorsResponse {
-    private final Map<String, List<String>> errors;
+    private final List<String> errors;
     private final boolean isSuccess = false;
 
-    public ValidationErrorsResponse(Map<String, List<String>> errors) {
+    public ValidationErrorsResponse(List<String> errors) {
         this.errors = errors;
     }
 
-    public Map<String, List<String>> getErrors() {
+    public List<String> getErrors() {
         return errors;
     }
 
