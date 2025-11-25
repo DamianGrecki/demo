@@ -3,12 +3,12 @@ package com.example.demo.validators;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class PasswordValidator {
-    protected PasswordValidator validator;
+public abstract class Validator {
+    protected Validator validator;
 
-    public static PasswordValidator link(PasswordValidator first, PasswordValidator... chain) {
-        PasswordValidator head = first;
-        for (PasswordValidator nextInChain : chain) {
+    public static Validator link(Validator first, Validator... chain) {
+        Validator head = first;
+        for (Validator nextInChain : chain) {
             head.validator = nextInChain;
             head = nextInChain;
         }

@@ -9,8 +9,10 @@ import com.example.demo.models.responses.UserRegisterResponse;
 import com.example.demo.repositories.UserRepository;
 import com.example.demo.services.DefaultUserService;
 
-import com.example.demo.services.PasswordService;
+import com.example.demo.services.EmailAddressValidationService;
+import com.example.demo.services.PasswordValidationService;
 import com.example.demo.services.UserService;
+import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mindrot.jbcrypt.BCrypt;
@@ -22,18 +24,13 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@RequiredArgsConstructor
 class UserServiceTests {
 
-    private UserRepository userRepository;
-    private PasswordService passwordService;
-    private UserService userService;
-
-    @BeforeEach
-    void setUp() {
-        userRepository = mock(UserRepository.class);
-        passwordService = mock(PasswordService.class);
-        userService = new DefaultUserService(userRepository, passwordService);
-    }
+    private final UserRepository userRepository = mock(UserRepository.class);
+    private final PasswordValidationService passwordValidationService = mock(PasswordValidationService.class);
+    private final EmailAddressValidationService emailValidationService = mock(EmailAddressValidationService.class);
+    private final UserService userService = new DefaultUserService(userRepository, passwordValidationService, emailValidationService);
 
     @Test
     void registerUserSuccessfullyTest() {
@@ -47,7 +44,7 @@ class UserServiceTests {
         );
 
         when(userRepository.findByEmail(email)).thenReturn(Optional.empty());
-        when(passwordService.encodePassword(password)).thenReturn(BCrypt.hashpw(password, BCrypt.gensalt()));
+        when(passwordValidationService.encodePassword(password)).thenReturn(BCrypt.hashpw(password, BCrypt.gensalt()));
 
         UserRegisterResponse response = userService.register(request);
 
@@ -91,19 +88,19 @@ class UserServiceTests {
                 confirmedPassword
         );
         doThrow(new ValidationException("Passwords do not match."))
-                .when(passwordService)
+                .when(passwordValidationService)
                 .comparePasswords(password, confirmedPassword);
 
         assertThrows(ValidationException.class, () -> userService.register(request));
 
-        verify(passwordService, times(1)).comparePasswords(password, confirmedPassword);
+        verify(passwordValidationService, times(1)).comparePasswords(password, confirmedPassword);
         verify(userRepository, never()).save(any());
     }
 
     @Test
     void registerUserFailsWhenPasswordIsInValidTest() {
         String email = "test@example.com";
-        String password = "Password123!";
+        String password = "Password";
 
         UserRegisterRequestBody request = new UserRegisterRequestBody(
                 email,
@@ -111,12 +108,32 @@ class UserServiceTests {
                 password
         );
         doThrow(new ValidationsException(new ArrayList<>()))
-                .when(passwordService)
-                .validatePasswords(password);
+                .when(passwordValidationService)
+                .validatePassword(password);
 
         assertThrows(ValidationsException.class, () -> userService.register(request));
 
-        verify(passwordService, times(1)).validatePasswords(password);
+        verify(passwordValidationService, times(1)).validatePassword(password);
+        verify(userRepository, never()).save(any());
+    }
+
+    @Test
+    void registerUserFailsWhenEmailAddressIsInValidTest() {
+        String email = "testexample.com";
+        String password = "Password";
+
+        UserRegisterRequestBody request = new UserRegisterRequestBody(
+                email,
+                password,
+                password
+        );
+        doThrow(new ValidationsException(new ArrayList<>()))
+                .when(emailValidationService)
+                .validateEmail(email);
+
+        assertThrows(ValidationsException.class, () -> userService.register(request));
+
+        verify(emailValidationService, times(1)).validateEmail(email);
         verify(userRepository, never()).save(any());
     }
 
