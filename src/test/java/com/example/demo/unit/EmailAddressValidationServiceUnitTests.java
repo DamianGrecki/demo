@@ -1,15 +1,13 @@
-package com.example.demo;
+package com.example.demo.unit;
 
 import com.example.demo.exceptions.ValidationException;
 import com.example.demo.exceptions.ValidationsException;
 import com.example.demo.services.EmailAddressValidationService;
-import com.example.demo.services.PasswordValidationService;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -18,12 +16,10 @@ import static com.example.demo.constants.EmailAddressConstraints.MAX_EMAIL_ADDRE
 import static com.example.demo.constants.EmailAddressConstraints.MIN_EMAIL_ADDRESS_LENGTH;
 import static com.example.demo.constants.Messages.*;
 import static com.example.demo.constants.Messages.MAX_EMAIL_ADDRESS_LENGTH_MSG;
-import static com.example.demo.constants.PasswordConstraints.MAX_PASSWORD_LENGTH;
-import static com.example.demo.constants.PasswordConstraints.MIN_PASSWORD_LENGTH;
 import static org.junit.jupiter.api.Assertions.*;
 
 @RequiredArgsConstructor
-class EmailAddressValidationServiceTests {
+class EmailAddressValidationServiceUnitTests {
     private final EmailAddressValidationService emailValidationService = new EmailAddressValidationService();
 
     @ParameterizedTest
