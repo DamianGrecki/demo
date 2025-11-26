@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.unit;
 
 import com.example.demo.exceptions.ValidationException;
 import com.example.demo.exceptions.ValidationsException;
@@ -19,7 +19,7 @@ import static com.example.demo.constants.PasswordConstraints.MIN_PASSWORD_LENGTH
 import static org.junit.jupiter.api.Assertions.*;
 
 @RequiredArgsConstructor
-class PasswordValidationServiceTests {
+class PasswordValidationServiceUnitTests {
     private final PasswordValidationService passwordValidationService = new PasswordValidationService();
 
     @ParameterizedTest

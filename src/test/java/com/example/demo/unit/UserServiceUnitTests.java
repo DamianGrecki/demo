@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.unit;
 
 import com.example.demo.exceptions.ResourceAlreadyExistsException;
 import com.example.demo.exceptions.ValidationException;
@@ -13,7 +13,6 @@ import com.example.demo.services.EmailAddressValidationService;
 import com.example.demo.services.PasswordValidationService;
 import com.example.demo.services.UserService;
 import lombok.RequiredArgsConstructor;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mindrot.jbcrypt.BCrypt;
 import org.mockito.ArgumentCaptor;
@@ -25,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @RequiredArgsConstructor
-class UserServiceTests {
+class UserServiceUnitTests {
 
     private final UserRepository userRepository = mock(UserRepository.class);
     private final PasswordValidationService passwordValidationService = mock(PasswordValidationService.class);
